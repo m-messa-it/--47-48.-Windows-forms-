@@ -28,7 +28,7 @@ namespace PostServiceFormsApp.Forms
         {
             try
             {
-                lblStatus.Text = "⏳ Завантаження списку відправлень...";
+                lblStatus.Text = "Завантаження списку відправлень...";
                 lblStatus.ForeColor = Color.Black;
                 btnRefresh.Enabled = false;
 
@@ -42,18 +42,18 @@ namespace PostServiceFormsApp.Forms
 
                 if (_apiClient.IsUsingMock)
                 {
-                    lblStatus.Text = "⚠️ Сервер недоступний (працює локальний демонстраційний режим)";
+                    lblStatus.Text = "Сервер недоступний (локальний режим)";
                     lblStatus.ForeColor = Color.DarkOrange;
                 }
                 else
                 {
-                    lblStatus.Text = "✅ Дані успішно завантажено із сервера PostService";
-                    lblStatus.ForeColor = Color.Green;
+                    lblStatus.Text = "Дані успішно завантажено";
+                    lblStatus.ForeColor = Color.DarkGreen;
                 }
             }
             catch (Exception ex)
             {
-                lblStatus.Text = $"❌ Помилка: {ex.Message}";
+                lblStatus.Text = $"Помилка: {ex.Message}";
                 lblStatus.ForeColor = Color.Red;
                 MessageBox.Show(
                     $"Не вдалося отримати дані з сервера:\n{ex.Message}",
