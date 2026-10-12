@@ -1,3 +1,1 @@
-# PostServiceFormsApp
-
-Настільний застосунок Windows Forms «Облік поштових відправлень» для взаємодії з REST API PostService.
+ПР-47,48. Покрокова розробка Windows forms додатку
