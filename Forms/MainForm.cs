@@ -79,30 +79,10 @@ namespace PostServiceFormsApp.Forms
 
         private async void btnAdd_Click(object sender, EventArgs e)
         {
-            using var editForm = new PostingEditForm();
-            if (editForm.ShowDialog(this) == DialogResult.OK)
+            using var dlg = new PostingEditForm(_apiClient);
+            if (dlg.ShowDialog(this) == DialogResult.OK)
             {
-                try
-                {
-                    lblStatus.Text = "Збереження нового відправлення...";
-                    await _apiClient.CreateAsync(editForm.Model);
-                    MessageBox.Show(
-                        "Відправлення успішно створено!",
-                        "Успіх",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
-                    await LoadPostingsAsync();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(
-                        $"Не вдалося створити відправлення:\n{ex.Message}",
-                        "Помилка операції",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                    );
-                }
+                await LoadPostingsAsync();
             }
         }
 
@@ -120,46 +100,10 @@ namespace PostServiceFormsApp.Forms
                 return;
             }
 
-            // Клонуємо об'єкт для редагування
-            var copy = new Posting
+            using var dlg = new PostingEditForm(_apiClient, selected);
+            if (dlg.ShowDialog(this) == DialogResult.OK)
             {
-                Id = selected.Id,
-                From = selected.From,
-                To = selected.To,
-                Content = selected.Content,
-                DeliveryType = selected.DeliveryType,
-                Weight = selected.Weight,
-                Width = selected.Width,
-                Height = selected.Height,
-                Depth = selected.Depth,
-                Value = selected.Value,
-                Price = selected.Price
-            };
-
-            using var editForm = new PostingEditForm(copy);
-            if (editForm.ShowDialog(this) == DialogResult.OK)
-            {
-                try
-                {
-                    lblStatus.Text = $"Оновлення відправлення #{selected.Id}...";
-                    await _apiClient.UpdateAsync(selected.Id, editForm.Model);
-                    MessageBox.Show(
-                        "Зміни успішно збережено!",
-                        "Успіх",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
-                    await LoadPostingsAsync();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(
-                        $"Не вдалося зберегти зміни:\n{ex.Message}",
-                        "Помилка операції",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                    );
-                }
+                await LoadPostingsAsync();
             }
         }
 
